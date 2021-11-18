@@ -16,18 +16,16 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <StackPanel Height="29">
+            <!--<StackPanel Height="29">
                 <Menu HorizontalAlignment="Center">
                     <MenuItem Header="Header1">
                         <MenuItem Header="Header1"/>
                         <MenuItem Header="Header2"/>
                     </MenuItem>
-                    <MenuItem Header="Header2">
-                        <MenuItem Header="Header1"/>
-                        <MenuItem Header="Header2"/>
-                    </MenuItem>
                 </Menu>
-            </StackPanel>
+            </StackPanel>-->
+            
+            <!--Change theme and accent color-->
             <Button HorizontalAlignment="Right" Grid.Column="1" Click="ButtonConfig_OnClick" Name="ButtonConfig" Style="{StaticResource ButtonIcon}" Foreground="{DynamicResource PrimaryTextBrush}" hc:IconElement.Geometry="{StaticResource ConfigGeometry}"/>
             <Popup AllowsTransparency="True" Grid.Column="1" PlacementTarget="{Binding ElementName=ButtonConfig}" HorizontalOffset="-35" Name="PopupConfig" VerticalOffset="6" StaysOpen="False">
                 <Border Background="{DynamicResource SecondaryRegionBrush}" CornerRadius="4" Margin="16" Effect="{StaticResource EffectShadow2}">
@@ -76,7 +74,7 @@
         </Grid.RowDefinitions>
 
         <!--Project Info-->
-        <TextBlock HorizontalAlignment="Center" Margin="5" Grid.Column="1" Grid.Row="0" Text="TextBlockLargeBold" Style="{StaticResource TextBlockLargeBold}"/>
+        <TextBlock HorizontalAlignment="Center" Margin="5" Grid.Column="1" Grid.Row="0" Text="Project Manager V2" Style="{StaticResource TextBlockLargeBold}"/>
         <Grid Grid.Column="1" Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition/>
@@ -92,9 +90,8 @@
         
         <!--Projects List-->
         <ListBox Grid.Row="0" Grid.RowSpan="3" Grid.Column="0" Style="{StaticResource ListBoxModernStyle}">
-            <!--<ListBoxItem Content="Item 1" hc:IconElement.Height="16" hc:IconElement.Width="16" hc:IconElement.Geometry="{StaticResource ConfigGeometry}"/>-->
-            <!--<ListBoxItem Content="Item 2" hc:ListBoxAttach.IsNew="True" hc:IconElement.Height="16" hc:IconElement.Width="16" hc:IconElement.Geometry="{StaticResource ConfigGeometry}"/>-->
-            <!--<ListBoxItem Content="Item 3" hc:ListBoxAttach.IsNew="True" hc:ListBoxAttach.GeoemtryBrush="{DynamicResource WarningBrush}" hc:ListBoxAttach.Geometry="{DynamicResource ClockGeometry}" hc:IconElement.Height="16" hc:IconElement.Width="16" hc:IconElement.Geometry="{StaticResource ConfigGeometry}"/>-->
+            <ListBoxItem Content="Item 1"/>
+            <ListBoxItem Content="Item 2"/>
         </ListBox>
 
         <!--Screenshots, To-do-list and Changelog-->
