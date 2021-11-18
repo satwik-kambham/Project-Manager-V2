@@ -74,7 +74,7 @@
         </Grid.RowDefinitions>
 
         <!--Project Info-->
-        <TextBlock HorizontalAlignment="Center" Margin="5" Grid.Column="1" Grid.Row="0" Text="Project Manager V2" Style="{StaticResource TextBlockLargeBold}"/>
+        <TextBlock x:Name="ProjectName" HorizontalAlignment="Center" Margin="5" Grid.Column="1" Grid.Row="0" Text="Project Manager V2" Style="{StaticResource TextBlockLargeBold}"/>
         <Grid Grid.Column="1" Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition/>

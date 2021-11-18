@@ -4,7 +4,7 @@ using LiteDB;
 
 namespace Project_Manager_V2
 {
-    internal class DBHelper
+    public class DBHelper
     {
         private LiteDatabase db;
         private ILiteCollection<ProjectInfo> table;

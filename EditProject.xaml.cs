@@ -1,27 +1,63 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using HandyControl.Controls;
+using HandyControl.Themes;
+using HandyControl.Tools;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Project_Manager_V2
 {
-    /// <summary>
-    /// Interaction logic for EditProject.xaml
-    /// </summary>
-    public partial class EditProject : Window
+    public partial class EditProject : HandyControl.Controls.Window
     {
-        public EditProject()
+        public ProjectInfo projectInfo;
+
+        public EditProject(ProjectInfo projectInfo)
         {
             InitializeComponent();
+            ThemeManager.Current.ApplicationTheme = ApplicationTheme.Dark;
+            this.projectInfo = projectInfo;
         }
+
+        #region Change Theme
+        private void ButtonConfig_OnClick(object sender, RoutedEventArgs e) => PopupConfig.IsOpen = true;
+
+        private void ButtonSkins_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (e.OriginalSource is Button button)
+            {
+                PopupConfig.IsOpen = false;
+                if (button.Tag is ApplicationTheme tag)
+                {
+                    ((App)Application.Current).UpdateTheme(tag);
+                }
+                else if (button.Tag is Brush accentTag)
+                {
+                    ((App)Application.Current).UpdateAccent(accentTag);
+                }
+                else if (button.Tag is "Picker")
+                {
+                    var picker = SingleOpenHelper.CreateControl<ColorPicker>();
+                    var window = new PopupWindow
+                    {
+                        PopupElement = picker,
+                        WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                        AllowsTransparency = true,
+                        WindowStyle = WindowStyle.None,
+                        MinWidth = 0,
+                        MinHeight = 0,
+                        Title = "Select Accent Color"
+                    };
+
+                    picker.SelectedColorChanged += delegate
+                    {
+                        ((App)Application.Current).UpdateAccent(picker.SelectedBrush);
+                        window.Close();
+                    };
+                    picker.Canceled += delegate { window.Close(); };
+                    window.Show();
+                }
+            }
+        }
+        #endregion
     }
 }

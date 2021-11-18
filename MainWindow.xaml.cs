@@ -12,6 +12,7 @@ namespace Project_Manager_V2
     public partial class MainWindow
     {
         public string ProjectsDirectoryPath { get; set; }
+        public DBHelper DBHelper;
 
         public MainWindow()
         {
@@ -23,6 +24,7 @@ namespace Project_Manager_V2
             if (!Directory.Exists(ProjectsDirectoryPath))
                 Directory.CreateDirectory(ProjectsDirectoryPath);
             InitializeProjectsList();
+            DBHelper = new DBHelper();
         }
 
         // Finds projects in folder and adds them to projects list
@@ -80,7 +82,10 @@ namespace Project_Manager_V2
         {
             if (ProjectsList.SelectedIndex != -1)
             {
-
+                var editProjectWindow = 
+                    new EditProject(DBHelper.GetProjectInfo(ProjectsList.SelectedItem.ToString()));
+                editProjectWindow.Owner = this;
+                editProjectWindow.ShowDialog();
             }
         }
     }
