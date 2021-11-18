@@ -89,24 +89,22 @@
         </Grid>
         
         <!--Projects List-->
-        <ListBox Grid.Row="0" Grid.RowSpan="3" Grid.Column="0" Style="{StaticResource ListBoxModernStyle}">
+        <ListBox x:Name="ProjectsList" Grid.Row="0" Grid.RowSpan="3" Grid.Column="0" Style="{StaticResource ListBoxBaseStyle}">
             <ListBoxItem Content="Item 1"/>
             <ListBoxItem Content="Item 2"/>
         </ListBox>
 
-        <!--Screenshots, To-do-list and Changelog-->
+        <!--Screenshots and To-do-list-->
         <TabControl Style="{StaticResource TabControlInLine}" Grid.Column="1" Grid.Row="2">
             <TabItem Header="Screenshots">
             </TabItem>
             <TabItem Header="To-do">
             </TabItem>
-            <TabItem Header="Changelog">
-            </TabItem>
         </TabControl>
 
         <!--Project Controls-->
         <hc:ButtonGroup Orientation="Vertical" Grid.Column="2" Grid.RowSpan="3">
-            <Button Content="Button 1"/>
+            <Button Content="Edit Project" Click="EditClicked"/>
             <Button Content="Button 2"/>
             <Button Content="Button 3"/>
             <Button Content="Button 4"/>

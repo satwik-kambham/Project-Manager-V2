@@ -4,15 +4,35 @@ using HandyControl.Tools;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.IO;
+using System;
 
 namespace Project_Manager_V2
 {
     public partial class MainWindow
     {
+        public string ProjectsDirectoryPath { get; set; }
+
         public MainWindow()
         {
             InitializeComponent();
             ThemeManager.Current.ApplicationTheme = ApplicationTheme.Dark;
+            // Setting default projects folder path
+            ProjectsDirectoryPath = 
+                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), "Projects");
+            if (!Directory.Exists(ProjectsDirectoryPath))
+                Directory.CreateDirectory(ProjectsDirectoryPath);
+            InitializeProjectsList();
+        }
+
+        // Finds projects in folder and adds them to projects list
+        public void InitializeProjectsList()
+        {
+            ProjectsList.Items.Clear();
+            foreach (var project in Directory.GetDirectories(ProjectsDirectoryPath))
+            {
+                ProjectsList.Items.Add(Path.GetRelativePath(ProjectsDirectoryPath, project));
+            }
         }
 
         #region Change Theme
@@ -56,5 +76,12 @@ namespace Project_Manager_V2
             }
         }
         #endregion
+        private void EditClicked(object sender, RoutedEventArgs e)
+        {
+            if (ProjectsList.SelectedIndex != -1)
+            {
+
+            }
+        }
     }
 }
