@@ -81,22 +81,24 @@
                 <RowDefinition Height="4*"/>
             </Grid.RowDefinitions>
             
-            <!--TODO: Project Tags-->
+            <!--Project Tags-->
+            <Label x:Name="ProjectTags" HorizontalAlignment="Left" FontSize="14" Margin="5" Content=".NET, WPF, C#" 
+               Style="{StaticResource LabelPrimary}" VerticalAlignment="Stretch"/>
 
             <!--Project Description-->
-            <TextBlock Margin="5" Grid.Row="1" Style="{StaticResource TextBlockSubTitle}" TextWrapping="Wrap" VerticalAlignment="Stretch"
-                       Text="Project Manager V2 is the new and updated version of project manager which was made in Qt. Project Manger V2 is made using .NET and has a better UI with more productivity features."/>
+            <TextBlock x:Name="ProjectDescription" Margin="5" Grid.Row="1"
+                       Style="{StaticResource TextBlockSubTitle}" TextWrapping="Wrap" VerticalAlignment="Stretch"
+                       Text="Project Manager V2 is the new and updated version of project manager which was made in Qt. Project Manger V2 is made using .NET and has a better UI with more productivity features." HorizontalAlignment="Stretch"/>
         </Grid>
         
         <!--Projects List-->
-        <ListBox x:Name="ProjectsList" Grid.Row="0" Grid.RowSpan="3" Grid.Column="0" Style="{StaticResource ListBoxBaseStyle}">
-            <ListBoxItem Content="Item 1"/>
-            <ListBoxItem Content="Item 2"/>
+        <ListBox x:Name="ProjectsList" Grid.Row="0" Grid.RowSpan="3" Grid.Column="0" Style="{StaticResource ListBoxBaseStyle}" SelectionChanged="ProjectSelectionChanged">
         </ListBox>
 
         <!--Screenshots and To-do-list-->
         <TabControl Style="{StaticResource TabControlInLine}" Grid.Column="1" Grid.Row="2">
             <TabItem Header="Screenshots">
+                <Image x:Name="Image_1"/>
             </TabItem>
             <TabItem Header="To-do">
             </TabItem>

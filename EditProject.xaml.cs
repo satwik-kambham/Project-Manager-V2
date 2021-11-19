@@ -10,12 +10,19 @@ namespace Project_Manager_V2
     public partial class EditProject : HandyControl.Controls.Window
     {
         public ProjectInfo projectInfo;
-
         public EditProject(ProjectInfo projectInfo)
         {
             InitializeComponent();
             ThemeManager.Current.ApplicationTheme = ApplicationTheme.Dark;
             this.projectInfo = projectInfo;
+            if (projectInfo != null) displayProjectInfo();
+        }
+
+        public void displayProjectInfo()
+        {
+            ProjectName.Content = projectInfo.Name;
+            ProjectDescription.Text = projectInfo.Description;
+            ProjectTags.Text = projectInfo.Tags;
         }
 
         #region Change Theme
@@ -59,5 +66,20 @@ namespace Project_Manager_V2
             }
         }
         #endregion
+
+        private void SaveChanges(object sender, RoutedEventArgs e)
+        {
+            if (projectInfo == null) this.Close();
+
+            projectInfo.Description = ProjectDescription.Text;
+            projectInfo.Tags = ProjectTags.Text;
+            if (Image_1.Uri != null) projectInfo.ScreenshotPath = Image_1.Uri.ToString();
+            this.Close();
+        }
+
+        private void CancelChanges(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
 }

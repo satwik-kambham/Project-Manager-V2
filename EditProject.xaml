@@ -66,12 +66,23 @@
         <!--Project Description-->
         <Label HorizontalAlignment="Left" FontSize="10" Margin="5" Content="Project Description" 
                Style="{StaticResource LabelPrimary}" VerticalAlignment="Stretch"/>
-        <TextBox x:Name="ProjectDescription" Margin="5,5,5,0" TextWrapping="Wrap"/>
+        <TextBox x:Name="ProjectDescription" Margin="5" TextWrapping="Wrap"/>
 
         <!--Project Tags-->
         <Label HorizontalAlignment="Left" FontSize="10" Margin="5" Content="Project Tags" 
                Style="{StaticResource LabelPrimary}" VerticalAlignment="Stretch"/>
-        <TextBox x:Name="ProjectTags" Margin="5,5,5,0" TextWrapping="Wrap"/>
+        <TextBox x:Name="ProjectTags" Margin="5" TextWrapping="Wrap"/>
+
+        <!--Project Sceenshot-->
+        <Label HorizontalAlignment="Left" FontSize="10" Margin="5" Content="Project Screenshot" 
+               Style="{StaticResource LabelPrimary}" VerticalAlignment="Stretch"/>
+        <hc:ImageSelector x:Name="Image_1" Width="100" Height="100" Margin="5"/>
+
+            <!--Save and Cancel buttons-->
+        <StackPanel Orientation="Horizontal" Margin="5">
+            <Button Style="{StaticResource ButtonSuccess}" Content="Save" Margin="10" Click="SaveChanges"/>
+            <Button Style="{StaticResource ButtonDanger}" Content="Cancel" Margin="10" Click="CancelChanges"/>
+        </StackPanel>
 
     </StackPanel>
 </hc:Window>

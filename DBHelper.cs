@@ -19,13 +19,15 @@ namespace Project_Manager_V2
         // Get Project Info by name
         public ProjectInfo GetProjectInfo(string Name)
         {
+            int count = table.FindAll().Count();
             return table.FindOne(x => x.Name == Name);
         }
 
         // Insert or Update Project Info
         public void SetProjectInfo(ProjectInfo projectInfo)
         {
-            table.Upsert(projectInfo);
+            if (!table.Update(projectInfo))
+                table.Insert(projectInfo);
         }
     }
 }

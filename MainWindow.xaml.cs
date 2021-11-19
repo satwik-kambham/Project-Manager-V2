@@ -4,6 +4,7 @@ using HandyControl.Tools;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.IO;
 using System;
 
@@ -13,6 +14,7 @@ namespace Project_Manager_V2
     {
         public string ProjectsDirectoryPath { get; set; }
         public DBHelper DBHelper;
+        public ProjectInfo SelectedProject;
 
         public MainWindow()
         {
@@ -82,10 +84,47 @@ namespace Project_Manager_V2
         {
             if (ProjectsList.SelectedIndex != -1)
             {
-                var editProjectWindow = 
-                    new EditProject(DBHelper.GetProjectInfo(ProjectsList.SelectedItem.ToString()));
+                var editProjectWindow = new EditProject(SelectedProject);
                 editProjectWindow.Owner = this;
-                editProjectWindow.ShowDialog();
+                editProjectWindow.Closed += (s, e) =>
+                {
+                    DBHelper.SetProjectInfo(SelectedProject);
+                    setText();
+                };
+                editProjectWindow.ShowDialog(); 
+            }
+        }
+
+        private void ProjectSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            SelectedProject = DBHelper.GetProjectInfo(ProjectsList.SelectedItem.ToString());
+            if (SelectedProject == null)
+            {
+                SelectedProject = new ProjectInfo(ProjectsList.SelectedItem.ToString());
+                DBHelper.SetProjectInfo(SelectedProject);
+            }
+            setText();
+        }
+
+        private void setText()
+        {
+            if (SelectedProject != null)
+            {
+                ProjectName.Text = SelectedProject.Name;
+                ProjectDescription.Text = SelectedProject.Description;
+                ProjectTags.Content = SelectedProject.Tags;
+                if (SelectedProject.ScreenshotPath != null && SelectedProject.ScreenshotPath != String.Empty )
+                {
+                    Image_1.Visibility = Visibility.Visible;
+                    BitmapImage image = new BitmapImage();
+                    image.BeginInit();
+                    image.UriSource = new Uri(SelectedProject.ScreenshotPath);
+                    image.EndInit();
+                    Image_1.Source = image;
+                } else
+                {
+                    Image_1.Visibility = Visibility.Hidden;
+                }
             }
         }
     }
