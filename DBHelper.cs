@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using LiteDB;
 
 namespace Project_Manager_V2
@@ -28,6 +27,12 @@ namespace Project_Manager_V2
         {
             if (!table.Update(projectInfo))
                 table.Insert(projectInfo);
+        }
+
+        public void backupDB()
+        {
+            db.Dispose();
+            System.IO.File.Move(@".\DB.db", @".\DBBackup.db");
         }
     }
 }

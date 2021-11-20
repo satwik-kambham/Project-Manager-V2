@@ -127,5 +127,11 @@ namespace Project_Manager_V2
                 }
             }
         }
+
+        private void backupAndReset(object sender, RoutedEventArgs e)
+        {
+            DBHelper.backupDB();
+            Dialog.Show(new RestartWindow());
+        }
     }
 }

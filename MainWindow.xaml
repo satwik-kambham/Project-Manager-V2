@@ -82,7 +82,7 @@
             </Grid.RowDefinitions>
             
             <!--Project Tags-->
-            <Label x:Name="ProjectTags" HorizontalAlignment="Left" FontSize="14" Margin="5" Content=".NET, WPF, C#" 
+            <Label x:Name="ProjectTags" HorizontalAlignment="Left" FontSize="14" Margin="3" Content=".NET, WPF, C#" 
                Style="{StaticResource LabelPrimary}" VerticalAlignment="Stretch"/>
 
             <!--Project Description-->
@@ -101,17 +101,24 @@
                 <Image x:Name="Image_1"/>
             </TabItem>
             <TabItem Header="To-do">
+                <ListBox x:Name="ToDoList" Style="{StaticResource ListBoxBaseStyle}">
+                    <ToggleButton HorizontalAlignment="Stretch" Content="Todo1"/>
+                    <ToggleButton HorizontalAlignment="Stretch" Content="Todo2"/>
+                    <ToggleButton HorizontalAlignment="Stretch" Content="Todo3"/>
+                </ListBox>
             </TabItem>
         </TabControl>
 
         <!--Project Controls-->
         <hc:ButtonGroup Orientation="Vertical" Grid.Column="2" Grid.RowSpan="3">
             <Button Content="Edit Project" Click="EditClicked"/>
-            <Button Content="Button 2"/>
-            <Button Content="Button 3"/>
-            <Button Content="Button 4"/>
-            <Button Content="Button 5"/>
-            <Button Content="Button 6"/>
+            <Button Content="Open Executable"/>
+            <Button Content="Open in VSCode"/>
+            <Button Content="Open in Atom"/>
+            <Button Content="Open in Terminal"/>
+            <Button Content="Open in Explorer"/>
+            <Button Content="Change folder"/>
+            <Button Content="Backup and Reset Data" Click="backupAndReset"/>
         </hc:ButtonGroup>
 
     </Grid>
