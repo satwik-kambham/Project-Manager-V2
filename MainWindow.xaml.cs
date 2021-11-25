@@ -19,7 +19,7 @@ namespace Project_Manager_V2
         public MainWindow()
         {
             InitializeComponent();
-            ThemeManager.Current.ApplicationTheme = ApplicationTheme.Dark;
+            //ThemeManager.Current.ApplicationTheme = ApplicationTheme.Dark;
             // Setting default projects folder path
             ProjectsDirectoryPath = 
                 Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), "Projects");
@@ -132,6 +132,37 @@ namespace Project_Manager_V2
         {
             DBHelper.backupDB();
             Dialog.Show(new RestartWindow());
+        }
+
+        private void OpenInVSCode(object sender, RoutedEventArgs e)
+        {
+            if (SelectedProject != null)
+                System.Diagnostics.Process.Start("cmd.exe",
+                    "-Command code.cmd \'" +
+                    Path.Combine(ProjectsDirectoryPath, SelectedProject.Name) + "\'");
+        }
+
+        private void OpenInAtom(object sender, RoutedEventArgs e)
+        {
+            if (SelectedProject != null)
+                System.Diagnostics.Process.Start("cmd.exe",
+                    "-Command atom.cmd \'" + 
+                    Path.Combine(ProjectsDirectoryPath, SelectedProject.Name) + "\'");
+        }
+
+        private void OpenInTerminal(object sender, RoutedEventArgs e)
+        {
+            if (SelectedProject != null)
+                System.Diagnostics.Process.Start("pwsh.exe", 
+                    "-WorkingDirectory \"" + Path.Combine(ProjectsDirectoryPath, SelectedProject.Name) + "\"");
+
+        }
+
+        private void OpenInExplorer(object sender, RoutedEventArgs e)
+        {
+            if (SelectedProject != null)
+                System.Diagnostics.Process.Start("explorer.exe",
+                Path.Combine(ProjectsDirectoryPath, SelectedProject.Name));
         }
     }
 }

@@ -13,7 +13,6 @@ namespace Project_Manager_V2
         public EditProject(ProjectInfo projectInfo)
         {
             InitializeComponent();
-            ThemeManager.Current.ApplicationTheme = ApplicationTheme.Dark;
             this.projectInfo = projectInfo;
             if (projectInfo != null) displayProjectInfo();
         }

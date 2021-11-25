@@ -113,10 +113,10 @@
         <hc:ButtonGroup Orientation="Vertical" Grid.Column="2" Grid.RowSpan="3">
             <Button Content="Edit Project" Click="EditClicked"/>
             <Button Content="Open Executable"/>
-            <Button Content="Open in VSCode"/>
-            <Button Content="Open in Atom"/>
-            <Button Content="Open in Terminal"/>
-            <Button Content="Open in Explorer"/>
+            <Button Content="Open in VSCode" Click="OpenInVSCode"/>
+            <Button Content="Open in Atom" Click="OpenInAtom" />
+            <Button Content="Open in Terminal" Click="OpenInTerminal" />
+            <Button Content="Open in Explorer" Click="OpenInExplorer" />
             <Button Content="Change folder"/>
             <Button Content="Backup and Reset Data" Click="backupAndReset"/>
         </hc:ButtonGroup>
