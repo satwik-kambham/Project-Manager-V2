@@ -32,6 +32,7 @@ namespace Project_Manager_V2
         public void backupDB()
         {
             db.Dispose();
+            System.IO.File.Delete(@".\DBBackup.db");
             System.IO.File.Move(@".\DB.db", @".\DBBackup.db");
         }
     }

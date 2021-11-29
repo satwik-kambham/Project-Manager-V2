@@ -101,11 +101,31 @@
                 <Image x:Name="Image_1"/>
             </TabItem>
             <TabItem Header="To-do">
-                <ListBox x:Name="ToDoList" Style="{StaticResource ListBoxBaseStyle}">
-                    <ToggleButton HorizontalAlignment="Stretch" Content="Todo1"/>
-                    <ToggleButton HorizontalAlignment="Stretch" Content="Todo2"/>
-                    <ToggleButton HorizontalAlignment="Stretch" Content="Todo3"/>
-                </ListBox>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="6*"/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <ListBox x:Name="ToDoList" Style="{StaticResource ListBoxBaseStyle}" Grid.ColumnSpan="2">
+                        <CheckBox Content="Task 1"/>
+                        <CheckBox Content="Task 2" IsChecked="True"/>
+                        <CheckBox Content="Task 3"/>
+                        <CheckBox Content="Task 4" IsChecked="True"/>
+                    </ListBox>
+
+                    <hc:TextBox x:Name="ToDoName" Grid.ColumnSpan="2" Grid.Row="1" TextWrapping="Wrap"/>
+
+                    <Button Content="Add" Grid.Row="2" Click="addTask"/>
+                    <Button Content="Remove" Grid.Row="2" Grid.Column="1" Click="removeTask" />
+
+                </Grid>
             </TabItem>
         </TabControl>
 

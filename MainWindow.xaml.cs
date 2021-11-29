@@ -125,6 +125,24 @@ namespace Project_Manager_V2
                 {
                     Image_1.Visibility = Visibility.Hidden;
                 }
+                ToDoList.Items.Clear();
+                var x = DBHelper.GetProjectInfo(SelectedProject.Name);
+                var toDoItems = DBHelper.GetProjectInfo(SelectedProject.Name).ToDos;
+                foreach (var item in toDoItems)
+                {
+                    var checkBoxItem = new CheckBox();
+                    checkBoxItem.Content = item.Task;
+                    checkBoxItem.IsChecked = item.Done;
+                    checkBoxItem.Checked += new RoutedEventHandler((s, e) => {
+                        SelectedProject.ToggleToDoItem(item.Task);
+                        DBHelper.SetProjectInfo(SelectedProject);
+                    });
+                    checkBoxItem.Unchecked += new RoutedEventHandler((s, e) => {
+                        SelectedProject.ToggleToDoItem(item.Task);
+                        DBHelper.SetProjectInfo(SelectedProject);
+                    });
+                    ToDoList.Items.Add(checkBoxItem);
+                }
             }
         }
 
@@ -163,6 +181,38 @@ namespace Project_Manager_V2
             if (SelectedProject != null)
                 System.Diagnostics.Process.Start("explorer.exe",
                 Path.Combine(ProjectsDirectoryPath, SelectedProject.Name));
+        }
+
+        private void addTask(object sender, RoutedEventArgs e)
+        {
+            if (SelectedProject != null)
+            {
+                var name = ToDoName.Text;
+                var checkBoxItem = new CheckBox();
+                checkBoxItem.Content = name;
+                checkBoxItem.Checked += new RoutedEventHandler((s, e) => {
+                    SelectedProject.ToggleToDoItem(name);
+                    DBHelper.SetProjectInfo(SelectedProject);
+                });
+                checkBoxItem.Unchecked += new RoutedEventHandler((s, e) => {
+                    SelectedProject.ToggleToDoItem(name);
+                    DBHelper.SetProjectInfo(SelectedProject);
+                });
+                SelectedProject.AddToDoItem(name);
+                ToDoList.Items.Add(checkBoxItem);
+                DBHelper.SetProjectInfo(SelectedProject);
+            }
+        }
+
+        private void removeTask(object sender, RoutedEventArgs e)
+        {
+            if (SelectedProject != null && ToDoList.SelectedItem != null)
+            {
+                var name = (string) ((CheckBox) ToDoList.SelectedItem).Content;
+                ToDoList.Items.Remove((CheckBox)ToDoList.SelectedItem);
+                SelectedProject.RemoveToDoItem(name);
+                DBHelper.SetProjectInfo(SelectedProject);
+            }
         }
     }
 }
