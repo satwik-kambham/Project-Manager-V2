@@ -137,8 +137,8 @@
             <Button Content="Open in Atom" Click="OpenInAtom" />
             <Button Content="Open in Terminal" Click="OpenInTerminal" />
             <Button Content="Open in Explorer" Click="OpenInExplorer" />
-            <Button Content="Change folder"/>
-            <Button Content="Backup and Reset Data" Click="backupAndReset"/>
+            <Button Content="Change folder" Click="ChangeFolder" />
+            <Button Content="Backup and Reset Data" Click="BackupAndReset"/>
         </hc:ButtonGroup>
 
     </Grid>

@@ -15,14 +15,17 @@ namespace Project_Manager_V2
         public string ProjectsDirectoryPath { get; set; }
         public DBHelper DBHelper;
         public ProjectInfo SelectedProject;
+        public PreferencesHelper PreferencesHelper;
 
         public MainWindow()
         {
             InitializeComponent();
-            //ThemeManager.Current.ApplicationTheme = ApplicationTheme.Dark;
-            // Setting default projects folder path
-            ProjectsDirectoryPath = 
-                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), "Projects");
+            
+            PreferencesHelper = new PreferencesHelper();
+            Preferences preferences = PreferencesHelper.getPreferences();
+            if (preferences.darkMode)
+                ThemeManager.Current.ApplicationTheme = ApplicationTheme.Dark;
+            ProjectsDirectoryPath = preferences.projectPath;
             if (!Directory.Exists(ProjectsDirectoryPath))
                 Directory.CreateDirectory(ProjectsDirectoryPath);
             InitializeProjectsList();
@@ -50,6 +53,10 @@ namespace Project_Manager_V2
                 if (button.Tag is ApplicationTheme tag)
                 {
                     ((App)Application.Current).UpdateTheme(tag);
+                    Preferences preferences = PreferencesHelper.getPreferences();
+                    if (tag == ApplicationTheme.Dark) preferences.darkMode = true;
+                    else preferences.darkMode = false;
+                    PreferencesHelper.setPreferences(preferences);
                 }
                 else if (button.Tag is Brush accentTag)
                 {
@@ -146,7 +153,7 @@ namespace Project_Manager_V2
             }
         }
 
-        private void backupAndReset(object sender, RoutedEventArgs e)
+        private void BackupAndReset(object sender, RoutedEventArgs e)
         {
             DBHelper.backupDB();
             Dialog.Show(new RestartWindow());
@@ -213,6 +220,13 @@ namespace Project_Manager_V2
                 SelectedProject.RemoveToDoItem(name);
                 DBHelper.SetProjectInfo(SelectedProject);
             }
+        }
+
+        private void ChangeFolder(object sender, RoutedEventArgs e)
+        {
+            Dialog.Show(new RestartWindow());
+            Dialog.Show(new ChangeFolderWindow(ProjectsDirectoryPath, PreferencesHelper));
+            DBHelper.backupDB();
         }
     }
 }

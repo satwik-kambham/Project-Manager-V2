@@ -14,9 +14,6 @@ using System.Windows.Shapes;
 
 namespace Project_Manager_V2
 {
-    /// <summary>
-    /// Interaction logic for RestartWindow.xaml
-    /// </summary>
     public partial class RestartWindow
     {
         public RestartWindow()
