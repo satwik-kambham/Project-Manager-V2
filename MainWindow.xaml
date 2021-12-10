@@ -132,7 +132,7 @@
         <!--Project Controls-->
         <hc:ButtonGroup Orientation="Vertical" Grid.Column="2" Grid.RowSpan="3">
             <Button Content="Edit Project" Click="EditClicked"/>
-            <Button Content="Open Executable"/>
+            <Button Content="Open Executable" Click="OpenExecutable"/>
             <Button Content="Open in VSCode" Click="OpenInVSCode"/>
             <Button Content="Open in Atom" Click="OpenInAtom" />
             <Button Content="Open in Terminal" Click="OpenInTerminal" />

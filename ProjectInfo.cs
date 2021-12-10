@@ -9,6 +9,7 @@ namespace Project_Manager_V2
         public string Description { get; set; }
         public string Tags { get; set; }
         public string ScreenshotPath { get; set; }
+        public string ExecutablePath { get; set; }
         public List<ToDoItem> ToDos { get; set; }
 
         public ProjectInfo(string Name)

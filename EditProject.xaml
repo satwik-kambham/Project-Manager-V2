@@ -6,7 +6,7 @@
         xmlns:hc="https://handyorg.github.io/handycontrol"
            mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="Edit Project Info" Height="450" Width="800">
+        Title="Edit Project Info" Height="500" Width="800">
     <hc:Window.NonClientAreaContent>
         <Grid>
             <Grid.ColumnDefinitions>
@@ -58,7 +58,7 @@
             </Popup>
         </Grid>
     </hc:Window.NonClientAreaContent>
-    <StackPanel>
+    <StackPanel CanVerticallyScroll="True">
         <!--Project Name-->
         <Label x:Name="ProjectName" HorizontalAlignment="Center"
                FontSize="20" Margin="10" Content="Project Manager V2" Style="{StaticResource BaseStyle}"/>
@@ -72,16 +72,25 @@
         <Label HorizontalAlignment="Left" FontSize="10" Margin="5" Content="Project Tags" 
                Style="{StaticResource LabelPrimary}" VerticalAlignment="Stretch"/>
         <TextBox x:Name="ProjectTags" Margin="5" TextWrapping="Wrap"/>
+        
+        <!-- Executable Path -->
+        <Label HorizontalAlignment="Left" FontSize="10" Margin="5" Content="Executable Path" 
+               Style="{StaticResource LabelPrimary}" VerticalAlignment="Stretch"/>
+        <UniformGrid Columns="2">
+            <TextBlock x:Name="ProjectExecutablePath" Margin="3" TextWrapping="Wrap"/>
+            <Button Content="Select Executable" Click="SelectExecutable" 
+                    Style="{StaticResource ButtonInfo}" hc:IconElement.Geometry="{StaticResource SearchGeometry}"/>
+        </UniformGrid>
 
-        <!--Project Sceenshot-->
+        <!--Project Screenshot-->
         <Label HorizontalAlignment="Left" FontSize="10" Margin="5" Content="Project Screenshot" 
                Style="{StaticResource LabelPrimary}" VerticalAlignment="Stretch"/>
         <hc:ImageSelector x:Name="Image_1" Width="100" Height="100" Margin="5"/>
 
             <!--Save and Cancel buttons-->
         <StackPanel Orientation="Horizontal" Margin="5">
-            <Button Style="{StaticResource ButtonSuccess}" Content="Save" Margin="10" Click="SaveChanges"/>
-            <Button Style="{StaticResource ButtonDanger}" Content="Cancel" Margin="10" Click="CancelChanges"/>
+            <Button Style="{StaticResource ButtonSuccess}" Content="Save" Margin="5 0" Click="SaveChanges"/>
+            <Button Style="{StaticResource ButtonDanger}" Content="Cancel" Margin="5 0" Click="CancelChanges"/>
         </StackPanel>
 
     </StackPanel>

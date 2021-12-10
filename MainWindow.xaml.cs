@@ -228,5 +228,13 @@ namespace Project_Manager_V2
             Dialog.Show(new ChangeFolderWindow(ProjectsDirectoryPath, PreferencesHelper));
             DBHelper.backupDB();
         }
+
+        private void OpenExecutable(object sender, RoutedEventArgs e)
+        {
+            if (SelectedProject != null)
+            {
+                System.Diagnostics.Process.Start(SelectedProject.ExecutablePath);
+            }
+        }
     }
 }

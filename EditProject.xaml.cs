@@ -4,6 +4,7 @@ using HandyControl.Tools;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using Microsoft.Win32;
 
 namespace Project_Manager_V2
 {
@@ -22,6 +23,7 @@ namespace Project_Manager_V2
             ProjectName.Content = projectInfo.Name;
             ProjectDescription.Text = projectInfo.Description;
             ProjectTags.Text = projectInfo.Tags;
+            ProjectExecutablePath.Text = projectInfo.ExecutablePath;
         }
 
         #region Change Theme
@@ -79,6 +81,19 @@ namespace Project_Manager_V2
         private void CancelChanges(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+        
+        private void SelectExecutable(object sender, RoutedEventArgs e)
+        {
+            var executableDialog = new OpenFileDialog();
+            executableDialog.Filter = "Executable (.exe)|*.exe";
+
+            if (executableDialog.ShowDialog(this) == true)
+            {
+                var executablePath = executableDialog.FileName;
+                projectInfo.ExecutablePath = executablePath;
+                ProjectExecutablePath.Text = executablePath;
+            }
         }
     }
 }
