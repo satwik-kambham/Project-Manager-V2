@@ -8,9 +8,12 @@ using Microsoft.Win32;
 
 namespace Project_Manager_V2
 {
+    // Windows to edit selected project
     public partial class EditProject : HandyControl.Controls.Window
     {
+        // Info of project to be edited
         public ProjectInfo projectInfo;
+
         public EditProject(ProjectInfo projectInfo)
         {
             InitializeComponent();
@@ -18,6 +21,7 @@ namespace Project_Manager_V2
             if (projectInfo != null) displayProjectInfo();
         }
 
+        // Display the information of the project in the window
         public void displayProjectInfo()
         {
             ProjectName.Content = projectInfo.Name;
@@ -68,6 +72,7 @@ namespace Project_Manager_V2
         }
         #endregion
 
+        // Save changes to database and close window
         private void SaveChanges(object sender, RoutedEventArgs e)
         {
             if (projectInfo == null) this.Close();
@@ -78,11 +83,13 @@ namespace Project_Manager_V2
             this.Close();
         }
 
+        // Close window without saving changes
         private void CancelChanges(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
         
+        // Open dialog to select executable of project
         private void SelectExecutable(object sender, RoutedEventArgs e)
         {
             var executableDialog = new OpenFileDialog();

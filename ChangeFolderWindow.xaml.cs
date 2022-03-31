@@ -3,10 +3,15 @@ using System.Windows;
 
 namespace Project_Manager_V2;
 
+// Window to change project folder
 public partial class ChangeFolderWindow
 {
+    // Path to folder contaning projects
     private string path;
+
+    // Helper class to save path to the preferences
     private PreferencesHelper preferencesHelper;
+
     public ChangeFolderWindow(string path, PreferencesHelper preferencesHelper)
     {
         this.path = path;
@@ -15,6 +20,8 @@ public partial class ChangeFolderWindow
         this.preferencesHelper = preferencesHelper;
     }
     
+    // Check if the folder selected by user exists
+    // If it exists, save and close
     private void ValidateFolder(object sender, RoutedEventArgs e)
     {
         path = Path.Text;

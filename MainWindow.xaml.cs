@@ -10,36 +10,46 @@ using System;
 
 namespace Project_Manager_V2
 {
+    // Main window
     public partial class MainWindow
     {
+        // Path to the directory contaning the project folders
         public string ProjectsDirectoryPath { get; set; }
+
+        // Helper class for interaction with database
         public DBHelper DBHelper;
+
+        // The current selected project
         public ProjectInfo SelectedProject;
+
+        // Helper class for getting and setting app preferences 
         public PreferencesHelper PreferencesHelper;
 
         public MainWindow()
         {
             InitializeComponent();
-            
+
+            // Apply preferences and get all projects in directory
             PreferencesHelper = new PreferencesHelper();
             Preferences preferences = PreferencesHelper.getPreferences();
             if (preferences.darkMode)
                 ThemeManager.Current.ApplicationTheme = ApplicationTheme.Dark;
+
             ProjectsDirectoryPath = preferences.projectPath;
             if (!Directory.Exists(ProjectsDirectoryPath))
-                Directory.CreateDirectory(ProjectsDirectoryPath);
+                try
+                {
+                    Directory.CreateDirectory(ProjectsDirectoryPath);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Project directory does not exist. Unable to create directory!");
+                    Console.WriteLine("Error: ");
+                    Console.WriteLine(e);
+                }
             InitializeProjectsList();
-            DBHelper = new DBHelper();
-        }
 
-        // Finds projects in folder and adds them to projects list
-        public void InitializeProjectsList()
-        {
-            ProjectsList.Items.Clear();
-            foreach (var project in Directory.GetDirectories(ProjectsDirectoryPath))
-            {
-                ProjectsList.Items.Add(Path.GetRelativePath(ProjectsDirectoryPath, project));
-            }
+            DBHelper = new DBHelper();
         }
 
         #region Change Theme
@@ -87,6 +97,26 @@ namespace Project_Manager_V2
             }
         }
         #endregion
+
+        // Finds projects in folder and adds them to projects list
+        public void InitializeProjectsList()
+        {
+            ProjectsList.Items.Clear();
+            try
+            {
+                foreach (var project in Directory.GetDirectories(ProjectsDirectoryPath))
+                {
+                    ProjectsList.Items.Add(Path.GetRelativePath(ProjectsDirectoryPath, project));
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error: ");
+                Console.WriteLine(e);
+            }
+        }
+
+        // Open edit project window
         private void EditClicked(object sender, RoutedEventArgs e)
         {
             if (ProjectsList.SelectedIndex != -1)
@@ -98,10 +128,11 @@ namespace Project_Manager_V2
                     DBHelper.SetProjectInfo(SelectedProject);
                     setText();
                 };
-                editProjectWindow.ShowDialog(); 
+                editProjectWindow.ShowDialog();
             }
         }
 
+        // Update window with newly selected project
         private void ProjectSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             SelectedProject = DBHelper.GetProjectInfo(ProjectsList.SelectedItem.ToString());
@@ -113,6 +144,7 @@ namespace Project_Manager_V2
             setText();
         }
 
+        // Update window with selected project's details
         private void setText()
         {
             if (SelectedProject != null)
@@ -120,7 +152,7 @@ namespace Project_Manager_V2
                 ProjectName.Text = SelectedProject.Name;
                 ProjectDescription.Text = SelectedProject.Description;
                 ProjectTags.Content = SelectedProject.Tags;
-                if (SelectedProject.ScreenshotPath != null && SelectedProject.ScreenshotPath != String.Empty )
+                if (SelectedProject.ScreenshotPath != null && SelectedProject.ScreenshotPath != String.Empty)
                 {
                     Image_1.Visibility = Visibility.Visible;
                     BitmapImage image = new BitmapImage();
@@ -128,7 +160,8 @@ namespace Project_Manager_V2
                     image.UriSource = new Uri(SelectedProject.ScreenshotPath);
                     image.EndInit();
                     Image_1.Source = image;
-                } else
+                }
+                else
                 {
                     Image_1.Visibility = Visibility.Hidden;
                 }
@@ -140,11 +173,13 @@ namespace Project_Manager_V2
                     var checkBoxItem = new CheckBox();
                     checkBoxItem.Content = item.Task;
                     checkBoxItem.IsChecked = item.Done;
-                    checkBoxItem.Checked += new RoutedEventHandler((s, e) => {
+                    checkBoxItem.Checked += new RoutedEventHandler((s, e) =>
+                    {
                         SelectedProject.ToggleToDoItem(item.Task);
                         DBHelper.SetProjectInfo(SelectedProject);
                     });
-                    checkBoxItem.Unchecked += new RoutedEventHandler((s, e) => {
+                    checkBoxItem.Unchecked += new RoutedEventHandler((s, e) =>
+                    {
                         SelectedProject.ToggleToDoItem(item.Task);
                         DBHelper.SetProjectInfo(SelectedProject);
                     });
@@ -153,12 +188,14 @@ namespace Project_Manager_V2
             }
         }
 
+        // Backup the database and erase all data
         private void BackupAndReset(object sender, RoutedEventArgs e)
         {
             DBHelper.backupDB();
             Dialog.Show(new RestartWindow());
         }
 
+        // Open selected project in Visual Studio Code
         private void OpenInVSCode(object sender, RoutedEventArgs e)
         {
             if (SelectedProject != null)
@@ -167,22 +204,25 @@ namespace Project_Manager_V2
                     Path.Combine(ProjectsDirectoryPath, SelectedProject.Name) + "\'");
         }
 
+        // Open selected project in Atom
         private void OpenInAtom(object sender, RoutedEventArgs e)
         {
             if (SelectedProject != null)
                 System.Diagnostics.Process.Start("cmd.exe",
-                    "-Command atom.cmd \'" + 
+                    "-Command atom.cmd \'" +
                     Path.Combine(ProjectsDirectoryPath, SelectedProject.Name) + "\'");
         }
 
+        // Open selected project in powershell (latest version from Store)
         private void OpenInTerminal(object sender, RoutedEventArgs e)
         {
             if (SelectedProject != null)
-                System.Diagnostics.Process.Start("pwsh.exe", 
+                System.Diagnostics.Process.Start("pwsh.exe",
                     "-WorkingDirectory \"" + Path.Combine(ProjectsDirectoryPath, SelectedProject.Name) + "\"");
 
         }
 
+        // Open selected project in the file explorer
         private void OpenInExplorer(object sender, RoutedEventArgs e)
         {
             if (SelectedProject != null)
@@ -190,6 +230,7 @@ namespace Project_Manager_V2
                 Path.Combine(ProjectsDirectoryPath, SelectedProject.Name));
         }
 
+        // Add a todo / task to the selected project
         private void addTask(object sender, RoutedEventArgs e)
         {
             if (SelectedProject != null)
@@ -197,11 +238,13 @@ namespace Project_Manager_V2
                 var name = ToDoName.Text;
                 var checkBoxItem = new CheckBox();
                 checkBoxItem.Content = name;
-                checkBoxItem.Checked += new RoutedEventHandler((s, e) => {
+                checkBoxItem.Checked += new RoutedEventHandler((s, e) =>
+                {
                     SelectedProject.ToggleToDoItem(name);
                     DBHelper.SetProjectInfo(SelectedProject);
                 });
-                checkBoxItem.Unchecked += new RoutedEventHandler((s, e) => {
+                checkBoxItem.Unchecked += new RoutedEventHandler((s, e) =>
+                {
                     SelectedProject.ToggleToDoItem(name);
                     DBHelper.SetProjectInfo(SelectedProject);
                 });
@@ -211,17 +254,19 @@ namespace Project_Manager_V2
             }
         }
 
+        // Remove selected todo / task from the selected project
         private void removeTask(object sender, RoutedEventArgs e)
         {
             if (SelectedProject != null && ToDoList.SelectedItem != null)
             {
-                var name = (string) ((CheckBox) ToDoList.SelectedItem).Content;
+                var name = (string)((CheckBox)ToDoList.SelectedItem).Content;
                 ToDoList.Items.Remove((CheckBox)ToDoList.SelectedItem);
                 SelectedProject.RemoveToDoItem(name);
                 DBHelper.SetProjectInfo(SelectedProject);
             }
         }
 
+        // Change the project directory folder and backup and reset datbase
         private void ChangeFolder(object sender, RoutedEventArgs e)
         {
             Dialog.Show(new RestartWindow());
@@ -229,6 +274,7 @@ namespace Project_Manager_V2
             DBHelper.backupDB();
         }
 
+        // Run the executable for selected project
         private void OpenExecutable(object sender, RoutedEventArgs e)
         {
             if (SelectedProject != null)

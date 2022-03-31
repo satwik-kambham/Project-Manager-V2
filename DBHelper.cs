@@ -1,8 +1,10 @@
 ﻿using System.Linq;
+using System;
 using LiteDB;
 
 namespace Project_Manager_V2
 {
+    // Helper class for interacting with the database
     public class DBHelper
     {
         private LiteDatabase db;
@@ -29,11 +31,21 @@ namespace Project_Manager_V2
                 table.Insert(projectInfo);
         }
 
+        // Delete old backup and create a new backup
         public void backupDB()
         {
             db.Dispose();
-            System.IO.File.Delete(@".\DBBackup.db");
-            System.IO.File.Move(@".\DB.db", @".\DBBackup.db");
+            try
+            {
+                System.IO.File.Delete(@".\DBBackup.db");
+                System.IO.File.Move(@".\DB.db", @".\DBBackup.db");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Cannot backup database!");
+                Console.WriteLine("Error: ");
+                Console.WriteLine(e);
+            }
         }
     }
 }
